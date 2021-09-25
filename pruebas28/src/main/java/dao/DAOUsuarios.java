@@ -86,7 +86,7 @@ public class DAOUsuarios {
             }
             return usuarios;
         } catch (Exception ex) {
-            System.out.println("Error en DAOUsuarios.eliminarUsuario: " + ex.getMessage());
+            System.out.println("Error en DAOUsuarios.listarUsuario: " + ex.getMessage());
             return null;
         }
 
