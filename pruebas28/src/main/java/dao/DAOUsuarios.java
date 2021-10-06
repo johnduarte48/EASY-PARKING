@@ -20,11 +20,10 @@ import java.util.Date;
 public class DAOUsuarios {
 
     private ConexionDb con;
-    private final String nombreTabla = "Usuarios";
-    //private final String[] columnas = {"cedula", "nombre", "apellido", "tipoUsuario", "telefono", "email", "contraseña", "usuario", "estadoDelUsuario", "fechaIngreso", "fechaEgreso"};
+    private final String nombreTabla = "usuarios";//MODIFIQUÉ LA PRIMERA LETRA QUE ESTABA EN MAYUSCULA
+    //private final String[] columnas = {"cedula", "nombre", "apellido", "tipoUsuario", "telefono", "email", "contrasena", "usuario", "estadoDelUsuario", "fechaIngreso", "fechaEgreso"};
 
-    
-    public DAOUsuarios(){
+    public DAOUsuarios() {
         try {
             con = new ConexionDb();
         } catch (Exception ex) {
@@ -33,7 +32,10 @@ public class DAOUsuarios {
     }
 
     public int insertarUsuario(TOUsuarios ToUsuario) {
-        String[] valores = {ToUsuario.getCedula(), ToUsuario.getNombre(), ToUsuario.getApellido(), ToUsuario.getTipoUsuario(), ToUsuario.getTelefono(), ToUsuario.getEmail(), ToUsuario.getContraseña(), ToUsuario.getUsuario(), ToUsuario.getEstadoDelUsuario(), ToUsuario.getFechaIngreso().toString(), ToUsuario.getFechaEgreso().toString()};
+        /*if(ToUsuario.getFechaIngreso()==null)
+            ToUsuario.setFechaIngreso();*/
+        
+        String[] valores = {ToUsuario.getCedula(), ToUsuario.getNombre(), ToUsuario.getApellido(), ToUsuario.getTipoUsuario(), ToUsuario.getTelefono(), ToUsuario.getEmail(), ToUsuario.getContrasena(), ToUsuario.getUsuario(), ToUsuario.getEstadoDelUsuario(), ToUsuario.getFechaIngreso().toString(), ToUsuario.getFechaEgreso().toString()};
         try {
             return con.insertar(nombreTabla, valores);
         } catch (Exception ex) {
@@ -42,9 +44,9 @@ public class DAOUsuarios {
         }
 
     }
-    
+
     public boolean actualizarUsuario(TOUsuarios ToUsuario) {
-        String[] valores = {ToUsuario.getCedula(), ToUsuario.getNombre(), ToUsuario.getApellido(), ToUsuario.getTipoUsuario(), ToUsuario.getTelefono(), ToUsuario.getEmail(), ToUsuario.getContraseña(), ToUsuario.getUsuario(), ToUsuario.getEstadoDelUsuario(), ToUsuario.getFechaIngreso().toString(), ToUsuario.getFechaEgreso().toString()};
+        String[] valores = {ToUsuario.getCedula(), ToUsuario.getNombre(), ToUsuario.getApellido(), ToUsuario.getTipoUsuario(), ToUsuario.getTelefono(), ToUsuario.getEmail(), ToUsuario.getContrasena(), ToUsuario.getUsuario(), ToUsuario.getEstadoDelUsuario(), ToUsuario.getFechaIngreso().toString(), ToUsuario.getFechaEgreso().toString()};
         try {
             return con.actualizar(nombreTabla, valores, 0);
         } catch (Exception ex) {
@@ -53,8 +55,8 @@ public class DAOUsuarios {
         }
 
     }
-    
-    public boolean eliminarUsuario(int idUsuario) {  
+
+    public boolean eliminarUsuario(int idUsuario) {
         try {
             return con.borrar(nombreTabla, idUsuario);
         } catch (Exception ex) {
@@ -63,21 +65,21 @@ public class DAOUsuarios {
         }
 
     }
-    
+
     public ArrayList<TOUsuarios> listarUsuarios() {
-        ArrayList<TOUsuarios> usuarios=new ArrayList<>();
+        ArrayList<TOUsuarios> usuarios = new ArrayList<>();
         TOUsuarios usuario;
         try {
             ResultSet rs = con.consultarTabla(nombreTabla);
-            while(rs.next()){
-                usuario=new TOUsuarios();
+            while (rs.next()) {
+                usuario = new TOUsuarios();
                 usuario.setCedula(rs.getString("cedula"));
                 usuario.setNombre(rs.getString("nombre"));
                 usuario.setApellido(rs.getString("apellido"));
                 usuario.setTipoUsuario(rs.getString("tipoUsuario"));
                 usuario.setTelefono(rs.getString("telefono"));
                 usuario.setEmail(rs.getString("email"));
-                usuario.setContraseña(rs.getString("contraseña"));
+                usuario.setContrasena(rs.getString("contrasena"));
                 usuario.setUsuario(rs.getString("usuario"));
                 usuario.setEstadoDelUsuario(rs.getString("estadoDelUsuario"));
                 usuario.setFechaIngreso(rs.getDate("fechaIngreso"));
@@ -91,7 +93,34 @@ public class DAOUsuarios {
         }
 
     }
-    
-    
+
+    public TOUsuarios verificarUsuario(String usuario, String clave) {
+        String condicion = " usuario = '" + usuario + "' AND contrasena= '" + clave + "'";
+        //alert("El susuario y/o contrasena utilizados son incorrectos, favor verificar");
+        TOUsuarios usuarioTO = new TOUsuarios();
+        try {
+            ResultSet rs = con.consultarWhere(nombreTabla, condicion);
+            while (rs.next()) {
+                usuarioTO.setCedula(rs.getString("cedula"));
+                usuarioTO.setNombre(rs.getString("nombre"));
+                usuarioTO.setApellido(rs.getString("apellido"));
+                usuarioTO.setTipoUsuario(rs.getString("tipoUsuario"));
+                usuarioTO.setTelefono(rs.getString("telefono"));
+                usuarioTO.setEmail(rs.getString("email"));
+                usuarioTO.setContrasena(rs.getString("contrasena"));
+                usuarioTO.setUsuario(rs.getString("usuario"));
+                usuarioTO.setEstadoDelUsuario(rs.getString("estadoDelUsuario"));
+                usuarioTO.setFechaIngreso(rs.getDate("fechaIngreso"));
+                usuarioTO.setFechaEgreso(rs.getDate("fechaEgreso"));
+            }
+            return usuarioTO;
+        } catch (SQLException ex) {
+            System.out.println("Error en DAOUsuarios.verificarUsuario: " + ex.getMessage());
+            return null;
+        }catch (Exception ex) {
+            System.out.println("Error en DAOUsuarios.verificarUsuario: " + ex.getMessage());
+            return null;
+        }
+    }
 
 }

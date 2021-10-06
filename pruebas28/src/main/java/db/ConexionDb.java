@@ -31,7 +31,7 @@ public class ConexionDb {
     private ResultSet rs = null;
 
     public ConexionDb() {
-        DB_driver = "com.mysql.jdbc.Driver";
+        DB_driver = "com.mysql.cj.jdbc.Driver";
         host = "localhost:3306";//validar puerto
         db = "mydb";//aca se pone el nombre de la base de datos
         url = "jdbc:mysql://" + host + "/" + db;
@@ -167,6 +167,26 @@ public class ConexionDb {
     }
     
     
+    public ResultSet consultarWhere(String nombreTabla, String condicion) {
+        String query = "SELECT * FROM " + nombreTabla + " WHERE "+condicion;
+        //String query = "SELECT * FROM usuarios WHERE usuario ='mjackson' AND contrasena='123456';";
+        try {
+            stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = stmt.executeQuery(query);
+            return rs;
+        } catch (SQLException ex) {
+            Logger.getLogger(ConexionDb.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (RuntimeException ex) {
+            Logger.getLogger(ConexionDb.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } catch (Exception ex) {
+            Logger.getLogger(ConexionDb.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    
 
     //Es buena practica devolver el ID del item creado para confirmar su creación
     public int insertar(String nombreTabla, String[] valores) {
@@ -189,11 +209,19 @@ public class ConexionDb {
                 query.append(",");
             }
         }
-        query.append(")");
+        query.append(") ");
         try {
             stmt = con.createStatement();
-            rs = stmt.executeQuery(query.toString());
-            return rs.getInt("id" + nombreTabla);
+            int columnasAfectadas=stmt.executeUpdate(query.toString(),Statement.RETURN_GENERATED_KEYS);
+            if(columnasAfectadas==0){
+                throw new SQLException("No se puede guardar el registro");
+            }
+            ResultSet idsGenerados = stmt.getGeneratedKeys();
+            if(idsGenerados.next()){
+                return idsGenerados.getInt(1);
+            } else{
+                return 0;
+            }
         } catch (SQLException ex) {
             Logger.getLogger(ConexionDb.class.getName()).log(Level.SEVERE, null, ex);
             return 0;

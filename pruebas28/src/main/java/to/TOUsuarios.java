@@ -20,28 +20,28 @@ public class TOUsuarios {
     private String tipoUsuario ;
     private String telefono ;
     private String email ;
-    private String contraseña ;
+    private String contrasena ;
     private String usuario ;
     private String estadoDelUsuario ;
     private Date fechaIngreso ;
     private Date fechaEgreso ;
 
-    public TOUsuarios( String cedula, String nombre, String apellido, String tipoUsuario, String telefono, String email, String contraseña, String usuario, String estadoDelUsuario, Date fechaIngreso, Date fechaEgreso) {
+    public TOUsuarios( String cedula, String nombre, String apellido, String tipoUsuario, String telefono, String email, String contrasena, String usuario, String estadoDelUsuario, Date fechaIngreso, Date fechaEgreso) {
         this.cedula = cedula;
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipoUsuario = tipoUsuario;
         this.telefono = telefono;
         this.email = email;
-        this.contraseña = contraseña;
+        this.contrasena = contrasena;
         this.usuario = usuario;
         this.estadoDelUsuario = estadoDelUsuario;
         this.fechaIngreso = fechaIngreso;
         this.fechaEgreso = fechaEgreso;
     }
 
-    public TOUsuarios(String contraseña, String usuario) {
-        this.contraseña = contraseña;
+    public TOUsuarios(String contrasena, String usuario) {
+        this.contrasena = contrasena;
         this.usuario = usuario;
     }
 
@@ -106,12 +106,12 @@ public class TOUsuarios {
         this.email = email;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
     }
 
     public String getUsuario() {

@@ -34,4 +34,8 @@ public class ControllerUsuarios {
         return usuariosDAO.listarUsuarios();
     }
     
+    public TOUsuarios verificarUsuario(String usuario,String clave) {
+        return usuariosDAO.verificarUsuario(usuario,clave);
+    }
+    
 }

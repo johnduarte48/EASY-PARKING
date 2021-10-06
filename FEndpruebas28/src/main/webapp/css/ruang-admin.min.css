@@ -683,7 +683,7 @@ a:focus {
   z-index: 1;
 }
 .sidebar .sidebar-brand .sidebar-brand-icon img {
-  max-height: 2.3rem;
+  max-height: 4.5rem;
 }
 .sidebar hr.sidebar-divider {
   margin: 1rem 0 1rem 0;
@@ -790,7 +790,7 @@ a:focus {
   content: "\f105";
 }
 .login-form {
-  padding: 3rem !important;
+  padding: 1rem !important;
 }
 @media (max-width: 768px) {
   #container-wrapper {
@@ -1599,7 +1599,7 @@ body.sidebar-toggled footer.sticky-footer {
   box-shadow: 0 0.125rem 0.3rem 0 rgba(58, 59, 69, 0.4) !important;
 }
 .form-control:focus {
-  border: 1px solid #6777ef;
+  border: 1px solid #a00d17;
 }
 .input-group-append span {
   -webkit-box-shadow: 0 0.125rem 0.25rem 0 rgba(58, 59, 69, 0.2) !important;

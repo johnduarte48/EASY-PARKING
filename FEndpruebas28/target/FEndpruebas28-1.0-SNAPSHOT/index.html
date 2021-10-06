@@ -9,10 +9,11 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link href="img/logo/fondo.png" rel="icon">
-        <title>Easy Parking</title>
+        <title>Easy Parking - Ingreso a plataforma</title>
         <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="css/ruang-admin.min.css" rel="stylesheet">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
 
     </head>
 
@@ -32,32 +33,32 @@
         <!-- Login Content -->
         <div class="container-login">
             <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-12 col-md-9">
+                <!-- MODIFICANDO LOS PARAMETROS "col-xl-3" Y "col-lg-6" SE ALTERA EL ANCHO Y ALTO DE LA CAJA DE LOGIN -->
+                <div class="col-xl-3 col-lg-6 col-md-9">
                     <div class="card shadow-sm my-5">
                         <div class="card-body p-0">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div style="BACKGROUND-COLOR: #eeece1; border: 2px solid #e73c43; background-image: img/logo/fondo.png" class="login-form">
+                                    <div style="BACKGROUND-COLOR: #eeece1; border: 2px solid #a00d17" class="login-form" ng-app="loginEasyParking" ng-controller="testController as tc">
                                         <div class="text-center">
-                                            <h1 class="h4 text-gray-900 mb-4">EasyParking</h1>
+                                            <!--<h1 class="h4 text-gray-900 mb-4">EasyParking</h1>-->
+                                            <img src="img/logo/Logosnfondo.png" width="182" height="100">
                                         </div>
+
                                         <form class="user">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="exampleInputEmail" aria-describedby="emailHelp"
-                                                       placeholder="Usuario">
+                                                <input type="text" class="form-control" id="exampleInputEmail" 
+                                                       placeholder="Usuario" ng-model="tc.usuario">
                                             </div>
                                             <div class="form-group">
-                                                <input type="password" class="form-control" id="exampleInputPassword" placeholder="Clave">
+                                                <input type="password" class="form-control" id="exampleInputPassword" placeholder="Contraseña" ng-model="tc.clave">
                                             </div>
                                             <!-- <div class="form-group"> -->
-                                                <!-- <a href="index.html" class="btn btn-primary btn-block">Ingresar</a> -->
-                                                
+                                            <!-- <a href="index.html" class="btn btn-primary btn-block">Ingresar</a> -->
+
                                             <!-- </div> -->
-                                            <button style="BACKGROUND-COLOR: #e73c43; color:#f5f5f5; font-weight=bold" class="btn login-form_btn submit w-100">Ingresar</button>
+                                            <button style="BACKGROUND-COLOR: #a00d17; color:#f5f5f5; font-weight=bold" class="btn login-form_btn submit w-100" ng-click="tc.login()">Ingresar</button>
                                         </form>
-                                        <hr>
-                                        <div class="text-center">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -72,5 +73,32 @@
         <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
         <script src="js/ruang-admin.min.js"></script>
     </body>
+
+
+    <!-- URL QUE RECIBE LA INFORMACION -->
+    <script>
+                                                var app = angular.module('loginEasyParking', []);
+                                                app.controller('testController', ['$http', initController]);
+                                                function initController($http) {
+                                                    var controlador = this;
+                                                    controlador.login = function () {
+                                                        var parametros = {opcion: "login", datos: JSON.stringify(controlador)};
+                                                        $http({
+                                                            method: 'POST',
+                                                            url: 'http://localhost:8080/pruebas28/controller/UsuariosController.jsp',
+                                                            params: parametros
+                                                        }).then(function (res) {
+                                                            console.log(res);
+                                                            controlador.respuesta = res.data;
+                                                            if (res.data.idUsuarios == 0)
+                                                            {
+                                                                alert("El usuario y/o contraseña utilizados son incorrectos, favor verificar");
+                                                            } else {
+                                                                window.location.href = "Usuarios.html";
+                                                            }
+                                                        });
+                                                    };
+                                                }
+    </script>
 
 </html>

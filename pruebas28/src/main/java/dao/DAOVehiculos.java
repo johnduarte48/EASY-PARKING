@@ -18,7 +18,7 @@ import to.TOVehiculos;
 public class DAOVehiculos {
     
     private ConexionDb con;
-    private final String nombreTabla = "Vehiculos";
+    private final String nombreTabla = "Vehiculos";//MODIFIQUÉ LA PRIMERA LETRA QUE ESTABA EN MAYUSCULA
 
     
     public DAOVehiculos(){

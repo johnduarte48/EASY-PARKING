@@ -16,11 +16,16 @@
         ArrayList<TOUsuarios> usuarios = controladorUsuarios.listarUsuarios();
         out.print(new Gson().toJson(usuarios));
     } else if ("insertar".equals(opcion)) {
-        
+
     } else if ("actualizar".equals(opcion)) {
-        
+
     } else if ("eliminar".equals(opcion)) {
-        
+
+    } else if ("login".equals(opcion)) {
+        String datos = request.getParameter("datos");
+        TOUsuarios usuarioTO = new Gson().fromJson(datos, TOUsuarios.class);//CONVIERTE A TOUsuario LO QUE CAPTURA DEL LOGIN.
+        usuarioTO = controladorUsuarios.verificarUsuario(usuarioTO.getUsuario(), usuarioTO.getContrasena());
+        out.print(new Gson().toJson(usuarioTO));//ESTA IMPRESION ES DE VALIDACION, SE PUEDE ELIMINAR
     } else {
         out.print("Esta opción no está disponible");
     }
